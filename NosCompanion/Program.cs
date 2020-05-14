@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@ namespace NosCompanion
 {
     class Program
     {
+        private IConfiguration _configuration;
         private DiscordSocketClient _client;
         private string _token;
         private CommandHandler _commandHandler;
@@ -17,9 +19,14 @@ namespace NosCompanion
 
         public async Task MainAsync()
         {
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build()
+                ;
+
             _client = new DiscordSocketClient();
             _commandHandler = new CommandHandler(_client, new Discord.Commands.CommandService());
-            _token = "";
+            _token = _configuration.GetValue<string>("token");
 
             _client.Log += Log;
 

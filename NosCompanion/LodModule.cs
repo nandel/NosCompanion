@@ -1,5 +1,7 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NosCompanion
@@ -15,25 +17,49 @@ namespace NosCompanion
         [Summary("Saiba quando é a proxima lod")]
         public Task LodAsync()
         {
-            var state = DateTime.UtcNow.Hour % 3;       
+            var state = GetLodState(DateTime.UtcNow);
             
             switch (state)
             {
-                case 0:
-                    ReplyAsync($"A lod acabou de terminar, a proxima abre em {60 - DateTime.Now.Minute} minutos.");
-                    break;
+                case LodState.Closed:
+                    return ReplyAsync($"A lod acabou de terminar, a proxima abre em {60 - DateTime.Now.Minute} minutos.");
 
-                case 1:
-                    var chanel = DateTime.UtcNow.Hour % 8 + 1 % 5;
-                    ReplyAsync($"A lod encontra-se aberta e o DH irá aparecer em {60 - DateTime.Now.Minute} minutos no chanel {chanel}.");
-                    break;
+                case LodState.Open:
+                    var chanel = GetLodChanel(DateTime.UtcNow);
+                    return ReplyAsync($"A lod encontra-se aberta e o DH irá aparecer em {60 - DateTime.Now.Minute} minutos no chanel {chanel}.");
 
-                case 2:
-                    ReplyAsync($"A lod ta rolando com o DH nesse momento, espere a proxima em 1hora e {60 - DateTime.Now.Minute}minutos.");
-                    break;
+                case LodState.OnGoing:
+                    return ReplyAsync($"A lod ta rolando com o DH nesse momento, espere a proxima em 1hora e {60 - DateTime.Now.Minute}minutos.");
             }
 
             return Task.CompletedTask;
         }
+
+        public static LodState GetLodState(DateTime dateTime)
+        {
+            return (LodState) (dateTime.Hour % 3);
+        }
+
+        public static int GetLodChanel(DateTime dateTime)
+        {
+            if (dateTime.Hour <= 11)
+            {
+                return (dateTime.Hour / 3) + 2;
+            }
+
+            if (dateTime.Hour <= 20)
+            {
+                return (dateTime.Hour / 3) - 2;
+            }
+
+            return 1;
+        }
+    }
+
+    public enum LodState : int
+    {
+        Closed = 0,
+        Open = 1,
+        OnGoing = 2
     }
 }
