@@ -37,19 +37,29 @@ namespace NosCompanion
 
         public static LodState GetLodState(DateTime dateTime)
         {
-            return (LodState) (dateTime.Hour % 3);
+            var serverTime = TimeZoneInfo.ConvertTime(
+                dateTime,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")
+            );
+
+            return (LodState) (serverTime.Hour % 3);
         }
 
         public static int GetLodChanel(DateTime dateTime)
         {
-            if (dateTime.Hour <= 11)
+            var serverTime = TimeZoneInfo.ConvertTime(
+                dateTime,
+                TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")
+            );
+
+            if (serverTime.Hour < 15)
             {
-                return (dateTime.Hour / 3) + 2;
+                return (serverTime.Hour / 3) + 1;
             }
 
-            if (dateTime.Hour <= 20)
+            if (serverTime.Hour >= 15)
             {
-                return (dateTime.Hour / 3) - 2;
+                return (serverTime.Hour / 3) - 3;
             }
 
             return 1;
@@ -58,8 +68,8 @@ namespace NosCompanion
 
     public enum LodState : int
     {
-        Closed = 0,
-        Open = 1,
-        OnGoing = 2
+        Open = 0,
+        OnGoing = 1,
+        Closed = 2,
     }
 }

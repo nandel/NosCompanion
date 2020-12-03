@@ -4,23 +4,19 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
-namespace NosCompanion
+namespace NosCompanion.Worker
 {
-    class Program
+    public class ThreadWorker
     {
         private IConfiguration _configuration;
         private DiscordSocketClient _client;
         private string _token;
         private CommandHandler _commandHandler;
 
-        public static void Main(string[] args)
-            => new Program().MainAsync().GetAwaiter().GetResult()
-            ;
-
-        public async Task MainAsync()
+        public async Task StartAsync()
         {
             _configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("nos-companion.json")
                 .Build()
                 ;
 
@@ -28,19 +24,11 @@ namespace NosCompanion
             _commandHandler = new CommandHandler(_client, new Discord.Commands.CommandService());
             _token = _configuration.GetValue<string>("token");
 
-            _client.Log += Log;
-
             await _client.LoginAsync(TokenType.Bot, _token);
             await _client.StartAsync();
-           
+
             await _commandHandler.InstallCommandsAsync();
             await Task.Delay(-1);
-        }
-
-        private Task Log(LogMessage msg)
-        {
-            Console.WriteLine(msg.ToString());
-            return Task.CompletedTask;
         }
     }
 }
