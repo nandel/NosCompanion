@@ -1,10 +1,7 @@
 name: .NET Core
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,6 +28,6 @@ jobs:
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
         PROJECT_FILE_PATH: ./NosCompanion/
-        VERSION_STATIC: 1.0.0
+        VERSION_STATIC: 1.0.1
         NUGET_KEY: ${{ secrets.NUGET_KEY }}
 
