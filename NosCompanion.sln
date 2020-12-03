@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NosCompanion", "NosCompanio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NosCompanion.Test", "NosCompanion.Test\NosCompanion.Test.csproj", "{B0DCC92E-909B-4AD5-963F-96482019E396}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NosCompanion.Worker", "NosCompanion.Worker\NosCompanion.Worker.csproj", "{107869AF-FC0B-4B12-B18D-923A9099B9F2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{B0DCC92E-909B-4AD5-963F-96482019E396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0DCC92E-909B-4AD5-963F-96482019E396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0DCC92E-909B-4AD5-963F-96482019E396}.Release|Any CPU.Build.0 = Release|Any CPU
-		{107869AF-FC0B-4B12-B18D-923A9099B9F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{107869AF-FC0B-4B12-B18D-923A9099B9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{107869AF-FC0B-4B12-B18D-923A9099B9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{107869AF-FC0B-4B12-B18D-923A9099B9F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
